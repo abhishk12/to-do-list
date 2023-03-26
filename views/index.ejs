@@ -1,0 +1,79 @@
+<%- include("header"); -%>
+
+    <div class="container">
+        <div class="dateTime">
+            <p class="dateTimeText">
+                <%= date_time %>
+            </p>
+        </div>
+        <hr>
+
+        <div class="listTypeContainer">
+            <% if (activeList=="Main" ){ %>
+                <a href="/" class="listType"
+                    style="background-color: whitesmoke; border:2px solid black; color: black; ">Main</a>
+                <a href="/work" class="listType">Work</a>
+                <% } else { %>
+                    <a href="/" class="listType">Main</a>
+                    <a href="/work" class="listType"
+                        style="background-color: whitesmoke; border:2px solid black; color: black; ">Work</a>
+                    <% } %>
+
+                    <button onclick="openForm()" class="openFormButton">New List</button>
+                        <form action="/newList" method="post" id="listTypeFormId">
+                            <p>Enter List Name:</p>
+                            <input type="text" name="listTypeName" placeholder="Type here">
+                            <button type="button" onclick="closeForm()">Cancel</button>
+                            <button type="submit">Add List</button>
+                        </form>
+                        
+
+        </div>
+        <hr>
+        <!-- <img src="images/trash-can-regular.svg" alt="trash-can" class="dustbin"> -->
+        <div class="listItemsBox">
+            <div class="listInfo">
+                <p>
+                    <%= listLength %> items added
+                </p>
+            </div>
+            <div class="listItems">
+                <% for(var i=0 ; i < list_items.length ; i++){ %>
+                    <!-- style="background-color: <%= list_items[i].item_color %>;" -->
+                    <form action="/delete" method="post" class="submit_form_item">
+                        <div class="itemBox">
+                            <p class="itemName" style="background-color: <%= list_items[i].item_color %>;">
+                                <%= list_items[i].item_name %>
+                            </p>
+
+                            <button type="submit" name="deleteItemButton" value="<%= list_items[i].item_name %>"
+                                class="deleteItemButton"><img src="images/delete.png" alt="trash-can"
+                                    class="dustbin"></button>
+
+                        </div>
+                    </form>
+                    <% } %>
+            </div>
+        </div>
+
+    </div>
+
+    <form action="/" method="post" class="submit_form">
+        <input type="text" name="itemName" id="itemNameId" placeholder="Type here..." autofocus autocomplete="off"
+            class="textField" required>
+        <button type="submit" class="submitButton" name="submitButtonName" value="<%= submitButtonValue %>">ADD</button>
+    </form>
+
+
+    <script>
+        function openForm(){
+            document.getElementById('listTypeFormId').style.display='inline';
+        }
+
+        function closeForm(){
+            document.getElementById('listTypeFormId').style.display = 'none';
+        }
+        
+    </script>
+
+    <%- include("footer"); -%>
